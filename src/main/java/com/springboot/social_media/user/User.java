@@ -1,12 +1,14 @@
 package com.springboot.social_media.user;
 
+import java.time.LocalDate;
+
 public class User {
 	
 	private Integer id;
 	private String name;
-	private String birthDate;
+	private LocalDate birthDate;
 	
-	public User(Integer id, String name, String birthDate) {
+	public User(Integer id, String name, LocalDate birthDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -34,11 +36,11 @@ public class User {
 		this.name = name;
 	}
 
-	public String getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(String birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
