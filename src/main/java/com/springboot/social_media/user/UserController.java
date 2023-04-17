@@ -11,29 +11,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-	
+
 	@Autowired
-	UserDaoService userDaoService;
-	
+	private UserDaoService userDaoService;
+
+	/** If we don't want to use @@Autowired. I can use constructor as shown below. */
+//	public UserController(UserDaoService userDaoService) {
+//		this.userDaoService = userDaoService;
+//	}
+
+	// Create user -> POST /users -> This should create a user and return back {id}
+	@PostMapping("/users")
+	public Integer createUser(String userName, LocalDate userBirthDate) {
+		return userDaoService.CreateUser(userName, userBirthDate);
+	}
+
 	// Read user -> GET /users -> returns back all users
-		@GetMapping("/users")
-		public List<User> getAllUsers(){
-			return userDaoService.getAllUsers();
-		}
+	@GetMapping("/users")
+	public List<User> getAllUsers() {
+		return userDaoService.getAllUsers();
+	}
 
-		// GET /users/{id} -> returns back a user {id}
-		@GetMapping("/users/{id}")
-		public User getUser(@PathVariable Integer id){
-			return userDaoService.getUser(id);
-		}
+	// GET /users/{id} -> returns back a user {id}
+	@GetMapping("/users/{id}")
+	public User getUser(@PathVariable Integer id) {
+		return userDaoService.getUser(id);
+	}
 
-		// Update -> UPDATE /users/{id} -> update user {id}
-		@PostMapping("/users/{id}")
-		public User getUserForId(@PathVariable Integer id, String name, String birthDate){
-			return userDaoService.getUserForId(id, "Nikitha", LocalDate.now().minusYears(10));
-		}
+	// Update -> UPDATE /users/{id} -> update user {id}
+	@PostMapping("/users/{id}")
+	public User getUserForId(@PathVariable Integer id, String name, String birthDate) {
+		return userDaoService.getUserForId(id, "Nikitha", LocalDate.now().minusYears(10));
+	}
 
-		// Delete -> DELETE /users/{id} -> delete user {id}
+	// Delete -> DELETE /users/{id} -> delete user {id}
 //		@DeleteMapping("/users/{id}")
 //		public void deleteUserForId(@PathVariable Integer id){
 //			userDaoService.deleteUserForId(id);
