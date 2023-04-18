@@ -17,23 +17,24 @@ public class UserDaoService {
 	 */
 
 	private static List<User> users = new ArrayList<User>();
-
+	private static int userCount=0;
+	
 	static {
-		users.add(new User(1, "Pink", LocalDate.now().minusYears(30)));
-		users.add(new User(2, "Red", LocalDate.now().minusYears(20)));
-		users.add(new User(3, "Blue", LocalDate.now().minusYears(25)));
-		users.add(new User(4, "Yellow", LocalDate.now().minusYears(30)));
+		users.add(new User(userCount++, new UserBody("Pink", LocalDate.now().minusYears(30))));
+		users.add(new User(userCount++, new UserBody( "Red", LocalDate.now().minusYears(20))));
+		users.add(new User(userCount++, new UserBody( "Blue", LocalDate.now().minusYears(25))));
+		users.add(new User(userCount++, new UserBody( "Yellow", LocalDate.now().minusYears(30))));
 	}
 	
 	//Create user -> POST /users  -> This should create a user and return back an {id}
-	public Integer CreateUser(String userName, LocalDate userBirthDate) {
-		Integer userId= users.size()+1;
-		try {
-			users.add(new User(userId,userName,userBirthDate));
-			return userId;
-		}catch(Exception e) {
+	public Integer CreateUser(UserBody userBody) {
+		int id=userCount++;
+		Boolean isAdded = users.add(new User(id,userBody));
+		if(isAdded)
+			return id;
+		else
 			return -1;
-		}
+		
 	}
 
 	// Read user -> GET /users -> returns back all users
@@ -50,7 +51,7 @@ public class UserDaoService {
 
 	// Update -> UPDATE /users/{id} -> update user {id}
 	public User getUserForId(Integer id, String name, LocalDate birthDate) {
-		users.set(id, new User(id, name, birthDate));
+		users.set(id, new User(id, new UserBody( name, birthDate)));
 		return users.get(id);
 	}
 

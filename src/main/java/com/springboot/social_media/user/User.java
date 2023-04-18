@@ -1,23 +1,18 @@
 package com.springboot.social_media.user;
 
-import java.time.LocalDate;
-
 public class User {
-	
+
 	private Integer id;
-	private String name;
-	private LocalDate birthDate;
-	
-	public User(Integer id, String name, LocalDate birthDate) {
-		super();
+	private UserBody userBody;
+
+	public User(Integer id, UserBody userBody) {
 		this.id = id;
-		this.name = name;
-		this.birthDate = birthDate;
+		this.userBody = userBody;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", birthDate=" + birthDate + "]";
+		return "User [id=" + id + ", name=" + userBody.getName() + ", birthDate=" + userBody.getBirthDate() + "]";
 	}
 
 	public Integer getId() {
@@ -28,20 +23,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public UserBody getUserBody() {
+		return userBody;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public LocalDate getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(LocalDate birthDate) {
-		this.birthDate = birthDate;
+	public void setUserBody(UserBody userBody) {
+		this.userBody = userBody;
 	}
 
 }
