@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Component
 public class UserDaoService {
@@ -46,7 +45,7 @@ public class UserDaoService {
 	public User getUser(Integer id) {
 		//functional programming to convert list to stream and filter for id
 		Predicate<? super User> predicate = user -> user.getId().equals(id);
-		return users.stream().filter(predicate).findFirst().get();
+		return users.stream().filter(predicate).findFirst().orElse(null);
 	}
 
 	// Update -> UPDATE /users/{id} -> update user {id}
@@ -56,13 +55,14 @@ public class UserDaoService {
 	}
 
 	// Delete -> DELETE /users/{id} -> delete user {id}
-//	public void deleteUserForId(Integer id) {
-//		users.remove(id);
-//	}
+	public void deleteUserById(Integer id) {
+		Predicate<? super User> predicate = user -> user.getId().equals(id);
+		users.removeIf(predicate);
+	}
 //
 //	// DELETE /users -> delete all users in DB
-//	public void deleteAllUsers() {
-//		users.removeAll(users);
+//	public Boolean deleteAllUsers() {
+//		return users.(users);
 //	}
 
 }

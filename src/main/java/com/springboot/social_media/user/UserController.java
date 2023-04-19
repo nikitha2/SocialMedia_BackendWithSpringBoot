@@ -1,14 +1,19 @@
 package com.springboot.social_media.user;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class UserController {
@@ -16,15 +21,21 @@ public class UserController {
 	@Autowired
 	private UserDaoService userDaoService;
 
-	/** If we don't want to use @@Autowired. I can use constructor as shown below. */
+	/**
+	 * If we don't want to use @@Autowired. I can use constructor as shown below.
+	 */
 //	public UserController(UserDaoService userDaoService) {
 //		this.userDaoService = userDaoService;
 //	}
 
-	// Create user -> POST /users -> This should create a user and return back {id}
+	// Create user -> POST /users -> This should create a user and return back users/{id}
 	@PostMapping("/users")
-	public Integer createUser(@RequestBody UserBody userBody) {
-		return userDaoService.CreateUser(userBody);
+	public ResponseEntity<User> createUser(@Valid @RequestBody UserBody userBody) {
+		int userId = userDaoService.CreateUser(userBody);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userId).toUri();
+
+		return ResponseEntity.created(location).build();
+
 	}
 
 	// Read user -> GET /users -> returns back all users
@@ -36,7 +47,13 @@ public class UserController {
 	// GET /users/{id} -> returns back a user {id}
 	@GetMapping("/users/{id}")
 	public User getUser(@PathVariable Integer id) {
-		return userDaoService.getUser(id);
+		User user = userDaoService.getUser(id);
+		
+		if(user == null) {
+			throw new UserNotFoundException("id: "+ id);
+		}
+		
+		return user;
 	}
 
 	// Update -> UPDATE /users/{id} -> update user {id}
@@ -45,16 +62,16 @@ public class UserController {
 		return userDaoService.getUserForId(id, "Nikitha", LocalDate.now().minusYears(10));
 	}
 
-	// Delete -> DELETE /users/{id} -> delete user {id}
-//		@DeleteMapping("/users/{id}")
-//		public void deleteUserForId(@PathVariable Integer id){
-//			userDaoService.deleteUserForId(id);
-//		}
+	 //Delete -> DELETE /users/{id} -> delete user {id}
+		@DeleteMapping("/users/{id}")
+		public void deleteUserbyId(@PathVariable Integer id){
+			userDaoService.deleteUserById(id);
+		}
 //		
 //		// DELETE /users -> delete all users in DB
 //		@DeleteMapping("/users/{id}")
-//		public void deleteAllUsers(){
-//			userDaoService.deleteAllUsers();
+//		public Boolean deleteAllUsers(){
+//			return userDaoService.deleteAllUsers();
 //		}
 
 }
