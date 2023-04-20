@@ -3,11 +3,9 @@ package com.springboot.social_media.user;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,12 +23,6 @@ public class UserController {
 
 	@Autowired
 	private UserDaoService userDaoService;
-	
-	MessageSource messageSource;
-	
-	private UserController(MessageSource messageSource) {
-		this.messageSource = messageSource;
-	}
 
 	/**
 	 * If we don't want to use @@Autowired. I can use constructor as shown below.
@@ -55,16 +48,20 @@ public class UserController {
 		return userDaoService.getAllUsers();
 	}
 
-	// GET /users/{id} -> returns back a user {id}
+    // GET /users/{id} -> returns back a user {id}
 	@GetMapping("/users/{id}")
-	public User getUser(@PathVariable Integer id) {
+	public EntityModel<User> getUser(@PathVariable Integer id) {
 		User user = userDaoService.getUser(id);
 
 		if (user == null) {
 			throw new UserNotFoundException("id: " + id);
 		}
-
-		return user;
+		
+		EntityModel<User>  entityModel = EntityModel.of(user); // wraps user with entityModel
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).getAllUsers());
+		
+		entityModel.add(link.withRel("all-users"));
+		return entityModel;
 	}
 
 	// Update -> UPDATE /users/{id} -> update user {id}
@@ -84,13 +81,5 @@ public class UserController {
 //		public Boolean deleteAllUsers(){
 //			return userDaoService.deleteAllUsers();
 //		}
-
-	// Update -> UPDATE /users/{id} -> update user {id}
-	@GetMapping("/hello-world-i18n")
-	public String getHelloWorldI18n() {
-		
-		Locale locale = LocaleContextHolder.getLocale();
-		return messageSource.getMessage("good.morning.message", null,"Default message", locale );
-	}
 
 }
