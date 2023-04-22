@@ -122,5 +122,20 @@ public class AdvancedConceptsController {
 	
 		return mappingJacksonValue;
 	}
+	
+	// ** 4. Dynamic filtering for list**/
+		@GetMapping(path = "/filteOutFieldsInListDynamically")
+		public MappingJacksonValue getFilteringIgnoreFieldsForListDynamic() {
+			DynamicFilteringModel[] dynamicFilteringModelList = { new DynamicFilteringModel("Goerge h", "Kristansa h", "Eleane"),
+					new DynamicFilteringModel("Jerry", "Sienfield", "gilmore"),
+					new DynamicFilteringModel("Kramer", "cereal", "fruit") };
+			
+			MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(dynamicFilteringModelList);
+			SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.filterOutAllExcept("field1","field3");
+			FilterProvider filterProvider = new SimpleFilterProvider().addFilter("DynamicFilteringOnDynamicFilteringModel", simpleBeanPropertyFilter);
+			mappingJacksonValue.setFilters(filterProvider);
+		
+			return mappingJacksonValue;
+		}
 
 }
