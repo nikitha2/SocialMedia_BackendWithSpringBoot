@@ -6,6 +6,8 @@ Tech Stack: Spring-boot, java, JPA, h2 database
 
 Create rest apis around users and posts
 
+Reference: https://gullapalli-nikitha.medium.com/restful-webservices-101things-to-remember-while-developing-restful-webservices-5e3b0fbc8da2
+
 1. Create/Update/Patch/Read/Delete users.
 
     User:  ID, name, DOB
