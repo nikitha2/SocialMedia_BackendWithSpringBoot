@@ -3,6 +3,8 @@ package com.springboot.social_media.user;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -34,8 +36,8 @@ public class UserController {
 	// Create user -> POST /users -> This should create a user and return back
 	// users/{id}
 	@PostMapping("/users")
-	public ResponseEntity<User> createUser(@Valid @RequestBody UserBody userBody) {
-		int userId = userDaoService.CreateUser(userBody);
+	public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserBody userBody) {
+		UserEntity userId = userDaoService.CreateUser(userBody);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userId).toUri();
 
 		return ResponseEntity.created(location).build();
@@ -44,42 +46,42 @@ public class UserController {
 
 	// Read user -> GET /users -> returns back all users
 	@GetMapping("/users")
-	public List<User> getAllUsers() {
+	public List<UserEntity> getAllUsers() {
 		return userDaoService.getAllUsers();
 	}
 
-    // GET /users/{id} -> returns back a user {id}
+	// GET /users/{id} -> returns back a user {id}
 	@GetMapping("/users/{id}")
-	public EntityModel<User> getUser(@PathVariable Integer id) {
-		User user = userDaoService.getUser(id);
+	public EntityModel<Optional<UserEntity>> getUser(@PathVariable Long id) {
+		Optional<UserEntity> user = userDaoService.getUserById(id);
 
-		if (user == null) {
+		if (user.isEmpty()) {
 			throw new UserNotFoundException("id: " + id);
 		}
-		
-		EntityModel<User>  entityModel = EntityModel.of(user); // wraps user with entityModel
+
+		EntityModel<Optional<UserEntity>> entityModel = EntityModel.of(user); // wraps user with entityModel
 		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).getAllUsers());
-		
+
 		entityModel.add(link.withRel("all-users"));
 		return entityModel;
 	}
 
 	// Update -> UPDATE /users/{id} -> update user {id}
 	@PostMapping("/users/{id}")
-	public User getUserForId(@PathVariable Integer id, String name, String birthDate) {
-		return userDaoService.getUserForId(id, "Nikitha", LocalDate.now().minusYears(10));
+	public void getUserForId(@PathVariable Long id, String name, String birthDate) {
+		userDaoService.getUserForId(id, "Nikitha", LocalDate.now().minusYears(10));
 	}
 
 	// Delete -> DELETE /users/{id} -> delete user {id}
 	@DeleteMapping("/users/{id}")
-	public void deleteUserbyId(@PathVariable Integer id) {
+	public void deleteUserbyId(@PathVariable Long id) {
 		userDaoService.deleteUserById(id);
 	}
-//		
-//		// DELETE /users -> delete all users in DB
-//		@DeleteMapping("/users/{id}")
-//		public Boolean deleteAllUsers(){
-//			return userDaoService.deleteAllUsers();
-//		}
+
+	// DELETE /users -> delete all users in DB
+	@DeleteMapping("/users")
+	public void deleteAllUsers() {
+		userDaoService.deleteAllUsers();
+	}
 
 }
