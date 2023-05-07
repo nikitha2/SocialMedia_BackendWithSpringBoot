@@ -93,4 +93,7 @@ d. To confirm (c) make sure you have mysqlsh. Download if you dont have it in yo
    3. Now if you try accessing db it will ask for credentials. Enter creds below
    
     username: user 
-    password: 
+    password: the one generated in the console.
+    
+ <img width="1103" alt="Screenshot 2023-05-06 at 8 35 23 PM" src="https://user-images.githubusercontent.com/23514932/236656263-87ca77fa-fd72-4098-b6d0-5e1dc861f1d6.png">
+
