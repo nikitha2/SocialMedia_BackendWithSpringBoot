@@ -72,6 +72,8 @@ d. To confirm (c) make sure you have mysqlsh. Download if you dont have it in yo
   
    d.2. Connect to your social-media DB- **connect social-media-user@localhost:3306** and enter password. If schema is not set. Set it as to your schema **\use social-media-database** defined in step (a).
    
+   d.3. Now change mode to run sql query's with command **/sql** and run select queries to see if you see the users and posts. You can add users and posts to table via talend API tester
+   
  <img width="1449" alt="Screenshot 2023-05-06 at 8 09 23 PM" src="https://user-images.githubusercontent.com/23514932/236655654-f8e324e5-be55-40fe-b54f-6c92f9fe5a0a.png">
 
 
