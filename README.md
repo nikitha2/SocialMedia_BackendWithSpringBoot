@@ -3,8 +3,7 @@
 
 Tech Stack: Spring-boot, java, JPA, h2 database
 
-
-Create rest apis around users and posts
+  --------------------------------------------- Create rest apis around users and posts ------------------------------------------------
 
 Reference: https://gullapalli-nikitha.medium.com/restful-webservices-101things-to-remember-while-developing-restful-webservices-5e3b0fbc8da2
 
@@ -45,10 +44,8 @@ Reference: https://gullapalli-nikitha.medium.com/restful-webservices-101things-t
    
    
    
-   
-   
-STEPS TO CONNECT TO MYSQL DATABASE:
-   
+  --------------------------------------------- STEPS TO CONNECT TO MYSQL DATABASE ------------------------------------------------
+     
 a. Create container using command 
   *** docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=social-media-user --env MYSQL_PASSWORD=dummypassword --env MYSQL_DATABASE=social-media-database --name mysql --publish 3306:3306 mysql:8-oracle***
   
@@ -71,7 +68,9 @@ c. Now run command application to see if it is running. You should be able to ru
 
 d. To confirm (c) make sure you have mysqlsh. Download if you dont have it in your computer from here[https://dev.mysql.com/doc/mysql-shell/8.0/en/mysql-shell-install-macos-quick.html].
    
-   Then in your terminal run **mysqlsh**. This will show the version of mysqlsh you have in your computer
+   d.1. Then in your terminal run **mysqlsh**. This will show the version of mysqlsh you have in your computer. 
+  
+   d.2. Connect to your social-media DB- **connect social-media-user@localhost:3306** and enter password. If schema is not set. Set it as to your schema **\use social-media-database** defined in step (a).
    
    <img width="1016" alt="Screenshot 2023-05-06 at 7 46 10 PM" src="https://user-images.githubusercontent.com/23514932/236655277-e3f9d6ec-85dd-43e8-96f7-0195288e49e0.png">
 
