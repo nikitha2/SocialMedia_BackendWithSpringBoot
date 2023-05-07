@@ -73,6 +73,7 @@ d. To confirm (c) make sure you have mysqlsh. Download if you dont have it in yo
    
    Then in your terminal run **mysqlsh**. This will show the version of mysqlsh you have in your computer
    
-   
+   <img width="1016" alt="Screenshot 2023-05-06 at 7 46 10 PM" src="https://user-images.githubusercontent.com/23514932/236655277-e3f9d6ec-85dd-43e8-96f7-0195288e49e0.png">
+
    
               
