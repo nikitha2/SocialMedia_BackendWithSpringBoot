@@ -74,8 +74,23 @@ d. To confirm (c) make sure you have mysqlsh. Download if you dont have it in yo
    
    d.3. Now change mode to run sql query's with command **/sql** and run select queries to see if you see the users and posts. You can add users and posts to table via talend API tester
    
+   d.4. Also, data in DB will persists even if you restart application. This shows it is not h2 db, but mysql database that is not reseting every time application restarts.
+   
  <img width="1449" alt="Screenshot 2023-05-06 at 8 09 23 PM" src="https://user-images.githubusercontent.com/23514932/236655654-f8e324e5-be55-40fe-b54f-6c92f9fe5a0a.png">
 
 
+   ----------------------------------------- spring-security-----------------------------------------
    
+   1. Right now anyone can add/read users and posts from out db,but this is not good. To avoid this we can add security and a password.
+   
+   2. Add sprint-security dependency and run application. This should create password. You will see it in the console.
+        
+         <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
               
+   3. Now if you try accessing db it will ask for credentials. Enter creds below
+   
+    username: user 
+    password: 
